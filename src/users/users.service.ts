@@ -14,6 +14,9 @@ export class UsersService {
     }
 
     findOne(id: number){
+        if(!id){
+            throw new NotFoundException("No user for Null or Provided Id");
+        }
         return this.repo.findOne({where: {id}});
     }
 
