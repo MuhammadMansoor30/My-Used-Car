@@ -16,6 +16,7 @@ export class UsersModule {}
 
 
 // NOTES (SEC 8 + 11):
+// In DI system the providers array is the list of services which are required by the Dependency Injection container.
 // Using the TypeOrm method to add the entitiy to its parent module.
 // This will help in creating the repository for storing data.
 // Other info in App.module file.
