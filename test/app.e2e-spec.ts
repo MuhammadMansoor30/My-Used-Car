@@ -22,3 +22,8 @@ describe('AppController (e2e)', () => {
       .expect('Hello World!');
   });
 });
+
+// NOTES (SEC 13):
+// The End-to-End Tetsing is used to test the entire application as a whole.
+// For this we will run the application server on our pc and then make requests to the application using tests.
+// For each test the application will be created again and tested again as a whole.
