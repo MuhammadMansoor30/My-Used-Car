@@ -7,7 +7,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { ReportsModule } from './reports/reports.module';
 import { User } from './users/user.entity';
-import { Reports } from './reports/reports.entity';
+import { Report } from './reports/reports.entity';
 const cookieSession = require('cookie-session');
 
 @Module({
@@ -22,7 +22,7 @@ const cookieSession = require('cookie-session');
         return {
           type: 'sqlite',
           database: config.get<string>('DB_NAME'),   // Getting name of the db env variable
-          entities: [User, Reports],
+          entities: [User, Report],
           synchronize: true
         }
       }
