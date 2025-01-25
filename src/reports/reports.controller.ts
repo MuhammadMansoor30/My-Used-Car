@@ -29,11 +29,12 @@ export class ReportsController {
 
     @Get()
     getEstimate(@Query() query: GetEstimateDto){
-        console.log(query);
+        return this.reportsService.createEstimate(query);
     }
 }
 
-// NOTES (SEC 15):
+// NOTES (SEC 15 + 17):
 // Creating reports controller file with different route handlers. Same as in users controller file.
 // Getting the current loggedin user details and passing it to the service so that we can create associate between the reports and users.
-// After adding associate to the entities we have to pass the user data inside of the rpeoets service so that it links user with it. We will sent the entire user entity but repositiry will extract user id from it and only save it in the db. 
+// After adding associate to the entities we have to pass the user data inside of the reports service so that it links user with it. We will sent the entire user entity but repositiry will extract user id from it and only save it in the db.
+// Adding in the getEstimate function to get the estimated price of the car based on the certain inputs which are defined in getEstimateDto file.
