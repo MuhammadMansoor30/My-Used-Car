@@ -16,6 +16,7 @@ const cookieSession = require('cookie-session');
       isGlobal: true,
       envFilePath: `.env.${process.env.NODE_ENV}`
     }),
+    // Replacing the config from here to the ormconfog.js file for different environments
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {
@@ -27,6 +28,7 @@ const cookieSession = require('cookie-session');
         }
       }
     }),
+
     // Old TypeOrmModule usage before adding ConfigModule and ConfigService
     // TypeOrmModule.forRoot({
     //   type: 'sqlite',
@@ -46,14 +48,16 @@ const cookieSession = require('cookie-session');
   ],
 })
 export class AppModule {
+  constructor(private configService: ConfigService){}
+
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(cookieSession({
-      keys: ['abcdefg']
+      keys: [this.configService.get('COOKIE_KEY')]
     })).forRoutes('*');
   }
 }
 
-// NOTES (SEC 8 + 13 + 14):
+// NOTES (SEC 8 + 13 + 14 + 18):
 // Creating a dabase connection in the AppModule using the TypeOrm.
 // TypeOrm works with various databases like: sqlite, postgres, mysql, mongodb. Mongoose is a typeorm only for MongoDb.
 // Later in this project we will switch to postgresql.
@@ -77,3 +81,7 @@ export class AppModule {
 // We will use the tweaked version of TypeOrmModule when using ConfigModule and Service.
 // We will inject the ConfigService into the DI container an dthen use it in the entire app.
 // We will use th cross-env library after installing to add NODE_ENV to our project. In the package.hjson file in the start scripts we will add cross-env NODE_ENV=development/test based on the testing or server start script before the given cmnds.
+
+// Using the configService and adding it as DI to APPModule to use the env file variables. The key for cookies is meant to be private so we will store it in the env file and get it usign the configService function.
+// Removing the TypeORM configuration for database to the ormconfig.js file to allow separte configurations for separate environments like development, test and production.
+// For production environment we should always set the syncronize flg to false and never turn it to True again so that our database is not lost if we have changed something in it.
