@@ -9,6 +9,7 @@ import { ReportsModule } from './reports/reports.module';
 import { User } from './users/user.entity';
 import { Report } from './reports/reports.entity';
 const cookieSession = require('cookie-session');
+import { dbOptions } from '../datasource';
 
 @Module({
   imports: [
@@ -16,18 +17,19 @@ const cookieSession = require('cookie-session');
       isGlobal: true,
       envFilePath: `.env.${process.env.NODE_ENV}`
     }),
+    TypeOrmModule.forRoot(dbOptions),
     // Replacing the config from here to the ormconfog.js file for different environments
-    TypeOrmModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => {
-        return {
-          type: 'sqlite',
-          database: config.get<string>('DB_NAME'),   // Getting name of the db env variable
-          entities: [User, Report],
-          synchronize: true
-        }
-      }
-    }),
+    // TypeOrmModule.forRootAsync({
+    //   inject: [ConfigService],
+    //   useFactory: (config: ConfigService) => {
+    //     return {
+    //       type: 'sqlite',
+    //       database: config.get<string>('DB_NAME'),   // Getting name of the db env variable
+    //       entities: [User, Report],
+    //       synchronize: true
+    //     }
+    //   }
+    // }),
 
     // Old TypeOrmModule usage before adding ConfigModule and ConfigService
     // TypeOrmModule.forRoot({
