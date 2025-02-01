@@ -21,9 +21,19 @@ switch (process.env.NODE_ENV) {
             type: 'sqlite',
             database: 'test.sqlite',
             entities: ["**/*.entity.ts"],
+            migrationsRun: true,
         });
         break;
     case "production":
+        Object.assign(dbConfig, {
+            type: "postgres",
+            url: process.env.DATABASE_URL,
+            migrationsRun: true,
+            entities: ["**/*.entity.js"],
+            ssl: {
+                rejectUnauthorized: false
+            }
+        });
         break;
     default:
         throw new Error("Unknown Environment");
@@ -42,5 +52,7 @@ module.exports = dataSource;
 // If file is in typescript we will use the "-o" flag to convert the file into plain JS file as typeorm doesnot work with TS.
 // The generate migration command will look into the project entities and generate commands to run when we will run the migration and save these all commands in the migrations folder.
 // In newer versions of TypeORM CLI we need to create dataSource from our config file to run mirations in older versions it was not required.
-// To run the migrations so that our database struacture is created in DB we will use command: 
-// npm run typeorm migration:run -- -d ./{configFileName}.js
+// To run the migrations so that our database structure is created in DB we will use command: 
+// -> npm run typeorm migration:run -- -d ./{configFileName}.js
+// Setting the migrations run property to True so that migrations are ran for each environemnt as well.
+// Setting up the production case to include psotgres database and also installing postgres driver for typeorm using 'npm i pg' 

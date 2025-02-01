@@ -1,4 +1,7 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
+  "exclude": ["ormconfig.js", "migrations", "node_modules", "test", "dist", "**/*spec.ts"]
 }
+
+// NOTES
+// Adding ormconfig.js file and migrations folder to tsconfig.build exclude so that typescript does not compile these files.
